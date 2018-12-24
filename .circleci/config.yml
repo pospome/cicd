@@ -18,11 +18,11 @@ jobs:
   deploy:
     working_directory: /go/src/github.com/pospome/cicd
     docker: 
-      - image: docker:18.06.1-ce
+      - image: docker:17.03.0-ce
     steps:
       - checkout
       - setup_remote_docker:
-          version: 18.06.1-ce
+          version: 17.03.0-ce
           docker_layer_caching: false
       - run:
           name: build docker image
