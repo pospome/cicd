@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/github.com/pospome/cicd
+    docker: 
+      - image: circleci/golang:1.11.4
+    steps:
+      - checkout
+      - run:
+          name: go get
+          command: 'go get -d -v ./...'
+      - run:
+          name: go install
+          command: 'go install -v ./...'
+      - run:
+          name: test
+          command: 'make test'
+  deploy:
+    working_directory: /go/src/github.com/pospome/cicd
+    docker: 
+      - image: docker:18.06.1-ce
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 18.06.1-ce
+          docker_layer_caching: true
+      - run:
+          name: build docker image
+          command: 'docker build -t pospome_test .'
+      - run:
+          name: docker login
+          command: 'echo $SERVICE_ACCOUNT | base64 -d | docker login -u _json_key --password-stdin https://gcr.io'
+      - run:
+          name: tag docker image
+          command: 'docker tag pospome_test $IMAGE_NAME'
+      - run:
+          name: push docker image
+          command: 'docker push $IMAGE_NAME'
+
+workflows:
+  version: 2
+  deploy-workflow:
+    jobs:
+      - build
