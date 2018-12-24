@@ -2,8 +2,8 @@
 #これを回避するためには、.PHONY: task をタスク定義に付けます。
 .PHONY: run
 run:
-	docker build -t pospome_test .
-	docker run -it --rm --name pospome_test -p 80:8080 pospome_test
+	docker build -t cicd .
+	docker run -it --rm --name cicd -p 80:8080 cicd
 
 # -t ... コンテナとホストの出力を接続する
 # -i ... コンテナとホストの入力を接続する

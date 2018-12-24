@@ -26,13 +26,13 @@ jobs:
           docker_layer_caching: true
       - run:
           name: build docker image
-          command: 'docker build -t pospome_test .'
+          command: 'docker build -t cicd .'
       - run:
           name: docker login
           command: 'echo $SERVICE_ACCOUNT | base64 -d | docker login -u _json_key --password-stdin https://gcr.io'
       - run:
           name: tag docker image
-          command: 'docker tag pospome_test $IMAGE_NAME'
+          command: 'docker tag cicd $IMAGE_NAME'
       - run:
           name: push docker image
           command: 'docker push $IMAGE_NAME'
