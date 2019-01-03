@@ -3,3 +3,5 @@
 vendor
 task.txt
 cover.out
+configmap.yaml
+pod.yaml
